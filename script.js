@@ -5,6 +5,9 @@ class Calculator {
         this.clear(); // We want to clear the screen as soon as the calculator initializes
     }
 
+    // The output needs to be cleared when after the calculation, a number button is pressed
+    computationDone = false;
+
     clear(){
         this.currentOperand = '';
         this.previousOperand = '';
@@ -16,6 +19,10 @@ class Calculator {
     }
 
     appendNumber(number){
+        if(this.computationDone && this.previousOperand === ''){
+            this.clear();
+            this.computationDone = false;
+        }
         if (number === '.' && this.currentOperand.includes('.')) return;
         this.currentOperand = this.currentOperand.toString() + number.toString();
     }
@@ -53,6 +60,7 @@ class Calculator {
                 return;
         }
 
+        this.computationDone = true;
         this.currentOperand = computation;
         this.operation = undefined;
         this.previousOperand = '';
